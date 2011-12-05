@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ./vids.js
+node youtube-backup.js
 
 cd "dl"
 
@@ -9,7 +9,7 @@ while read ID
 do
   if [ ! -f "dl/${ID}" ];
   then
-  	CURRENT="`ls | grep "${ID}" | wc -l`"
+  	CURRENT="`ls | grep -e "${ID}" | wc -l`"
   	if [ "$CURRENT" -eq "0" ]
   	then
   		youtube-dl -t "www.youtube.com/watch?v=${ID}"

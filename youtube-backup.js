@@ -1,5 +1,3 @@
-#!/usr/local/bin/node
-
 /*
  * YouTube Backup Script
  *
@@ -33,11 +31,14 @@ var callback = function(str) {
 	var data = JSON.parse(str);
 	if (typeof data.feed.entry == "undefined") {
 		console.log("Done.")
+
 		fs.writeFileSync("vids.txt", videoIDsString);
+
 		var time = (new Date()).getTime();
-		fs.writeFileSync("vids_nice.txt", videosString);
 		fs.writeFileSync("vids_" + time +".txt", videosString);
+
 		fs.writeFileSync("vids.json", JSON.stringify(videos));
+		
 		return;
 	}
 	else {
