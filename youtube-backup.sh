@@ -12,7 +12,7 @@ do
   	CURRENT="`ls | grep "${ID}" | wc -l`"
   	if [ "$CURRENT" -eq "0" ]
   	then
-  		youtube-dl -t "${ID}"
+  		youtube-dl -t "www.youtube.com/watch?v=${ID}"
   	fi
   fi
 done
