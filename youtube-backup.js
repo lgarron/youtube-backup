@@ -10,12 +10,16 @@ TODO:
  *
  */
 
+if (process.argv.length < 3) {
+	console.log("Usage: node youtube-backup.js [username]");
+	process.exit(0);
+}
 
 var fs = require("fs");
 var https = require('http');
 var url = require('url');
 
-var userName = "LucasGarron"; // Username whose public vids we want to access
+var userName = process.argv[2]; // Username whose public vids we want to access
 
 var perRequest = 50;
 var startIndex = 1;
@@ -32,13 +36,13 @@ var callback = function(str) {
 	if (typeof data.feed.entry == "undefined") {
 		console.log("Done.")
 
-		fs.writeFileSync("vids.txt", videoIDsString);
+		fs.writeFileSync("vids/vids.txt", videoIDsString);
 
 		var time = (new Date()).getTime();
-		fs.writeFileSync("vids_" + time +".txt", videosString);
+		fs.writeFileSync("vids/vids_" + time +".txt", videosString);
 
-		fs.writeFileSync("vids.json", JSON.stringify(videos));
-		
+		fs.writeFileSync("vids/vids.json", JSON.stringify(videos));
+
 		return;
 	}
 	else {
