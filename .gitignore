@@ -1,2 +1,5 @@
-dl
+# Folder that gets created to store video lists.
 vids
+
+# Personal script that runs with local parameters.
+backup.sh
