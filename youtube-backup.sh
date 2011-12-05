@@ -1,40 +1,44 @@
 #!/bin/bash
 
-if [ "$#" -eq "0" ]
+## Script parameters
+
+if [ "$#" -lt "2" ]
 then
-	echo "Usage: ./youtube-backup.sh [username]"
+	echo "Usage: ./youtube-backup.sh [username] [backup directory]"
 	exit
 fi
 
-##
+USERNAME="${1}"
+BACKUP_DIR="${2}"
 
-if [ ! -d "dl" ]
+## Ensure the needed dirs exist.
+
+if [ ! -d "${BACKUP_DIR}" ]
 then
-	mkdir "dl"
+	mkdir "${BACKUP_DIR}"
 fi
 
-if [ ! -d "dl" ]
+if [ ! -d "vids" ]
 then
 	mkdir "vids"
 fi
 
-##
+## Download video list.
 
-node youtube-backup.js "${1}"
+node youtube-backup.js "${USERNAME}"
 
-##
+## Download videos.
 
-cd "dl"
+VIDS_FILE="${PWD}/vids/vids.txt"
 
-cat "../vids/vids.txt" |
+cd "${BACKUP_DIR}"
+
+cat "${VIDS_FILE}" |
 while read ID
 do
-  if [ ! -f "dl/${ID}" ];
+  CURRENT="`ls | grep -e "${ID}" | wc -l`"
+  if [ "$CURRENT" -eq "0" ]
   then
-  	CURRENT="`ls | grep -e "${ID}" | wc -l`"
-  	if [ "$CURRENT" -eq "0" ]
-  	then
-  		youtube-dl -t "www.youtube.com/watch?v=${ID}"
-  	fi
+    youtube-dl -t "www.youtube.com/watch?v=${ID}"
   fi
 done
